@@ -13,6 +13,7 @@ const Lobby = (props: Props) => {
 
 	return (
 		<div className='h-[50rem] flex flex-col items-center justify-center gap-8'>
+			<h1 className='text-6xl font-medium mb-20'>Hangman</h1>
 			<h2 className='font-medium text-3xl'>Choose gamemode</h2>
 			<div className='flex gap-8'>
 				<button

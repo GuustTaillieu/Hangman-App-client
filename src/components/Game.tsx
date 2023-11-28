@@ -1,5 +1,6 @@
 import React from 'react';
 import StageImage from './StageImage';
+import Header from './Header';
 
 type Props = {
 	gameId: string;
@@ -7,8 +8,8 @@ type Props = {
 
 const Game = ({ gameId }: Props) => {
 	return (
-		<div className='flex flex-col gap-12'>
-			{/* <Header /> */}
+		<div className='flex flex-col gap-12 h-full w-full'>
+			<Header />
 			<StageImage />
 			{/* <Word /> */}
 			{/* <Letters /> */}

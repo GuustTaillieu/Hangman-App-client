@@ -32,12 +32,11 @@ function StageImage({}: Props) {
 	);
 
 	return (
-		<div className='rounded-xl overflow-hidden mt-6'>
+		<div className='mt-6 h-96 flex justify-center'>
 			<Image
 				src={images[mistakes]}
-				width={300}
-				height={300}
 				alt='hangman status'
+				className='drop-shadow-lg h-full object-cover rounded-xl'
 			/>
 		</div>
 	);
