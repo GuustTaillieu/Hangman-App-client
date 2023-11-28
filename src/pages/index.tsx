@@ -9,7 +9,7 @@ export default function Home() {
 
 	return (
 		<main
-			className={`flex min-h-screen flex-col items-center justify-start p-24 ${inter.className}`}>
+			className={`flex min-h-screen flex-col items-center justify-center p-24 ${inter.className}`}>
 			{inGame ? <Game gameId='1' /> : <Lobby />}
 		</main>
 	);
