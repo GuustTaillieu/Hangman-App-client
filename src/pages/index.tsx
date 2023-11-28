@@ -5,7 +5,7 @@ import { Inter } from 'next/font/google';
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
-	const inGame = false;
+	const inGame = true;
 
 	return (
 		<main
