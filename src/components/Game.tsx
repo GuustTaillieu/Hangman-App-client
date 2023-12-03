@@ -1,5 +1,9 @@
-import Image from 'next/image';
 import React from 'react';
+import StageImage from './StageImage';
+import Header from './Header';
+import Word from './Word';
+import Letters from './Letters';
+import Chat from './Chat';
 
 type Props = {
 	gameId: string;
@@ -7,16 +11,11 @@ type Props = {
 
 const Game = ({ gameId }: Props) => {
 	return (
-		<div className='flex flex-col gap-12'>
-			{/* <Header /> */}
-			<Image
-				src='/hangman-0.png'
-				width={300}
-				height={300}
-				alt='hangman status'
-			/>
-			{/* <Word /> */}
-			{/* <Letters /> */}
+		<div className='flex flex-col gap-24 h-full w-full'>
+			<Header />
+			<StageImage />
+			<Word />
+			<Letters />
 			{/* <Chat /> */}
 		</div>
 	);
