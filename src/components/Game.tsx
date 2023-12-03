@@ -3,6 +3,7 @@ import StageImage from './StageImage';
 import Header from './Header';
 import Word from './Word';
 import Letters from './Letters';
+import Chat from './Chat';
 
 type Props = {
 	gameId: string;
