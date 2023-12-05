@@ -87,10 +87,18 @@ function makeClientSender(client: Stomp.Client) {
 		guessLetter(letter) {
 			const gameId = game.value?.id;
 			const playerId = userData.value?.userId;
-			client.send(SEND.SEND_WORD, {
+			client.send(SEND.GUESS_LETTER, {
 				gameId,
 				playerId,
 				letter,
+			});
+		},
+		resetGame() {
+			const gameId = game.value?.id;
+			const playerId = userData.value?.userId;
+			client.send(SEND.RESET_GAME, {
+				gameId,
+				playerId,
 			});
 		},
 	};

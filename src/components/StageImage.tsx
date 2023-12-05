@@ -11,7 +11,7 @@ import stage8 from '@public/images/stages/8.jpg';
 import stage9 from '@public/images/stages/9.jpg';
 import stage10 from '@public/images/stages/10.jpg';
 import { useSignalEffect } from '@preact/signals-react';
-import { game } from '@/hooks/states';
+import { game, userData } from '@/hooks/states';
 
 type Props = {};
 
@@ -35,9 +35,11 @@ function StageImage({}: Props) {
 
 	useSignalEffect(() => {
 		if (!game.value) return;
-		const currentWord = game.value.currentWord;
-		if (!currentWord) return;
-		setMistakes(currentWord.wrongGuesses);
+		const player = game.value.players.find(
+			(player) => player.id === userData.value?.userId
+		);
+		if (!player) return;
+		setMistakes(player.wrongGuesses);
 	});
 
 	return (

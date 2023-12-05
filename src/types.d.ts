@@ -15,13 +15,13 @@ type Player = {
 	id: string;
 	name: string;
 	score: number;
+	wrongGuesses: number;
 };
 
 type WordToGuess = {
 	word: string;
 	owner: Player;
 	guesses: { [playerId: string]: string[] };
-	wrongGuesses: number;
 };
 
 type GameStatus =
@@ -63,4 +63,5 @@ type TClientSender = {
 	startGame: () => void;
 	sendWord: (word: string) => void;
 	guessLetter: (letter: string) => void;
+	resetGame: () => void;
 };

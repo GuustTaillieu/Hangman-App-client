@@ -8,6 +8,8 @@ const SEND = {
 	JOIN_GAME: '/app/game/join',
 	START_GAME: '/app/game/start',
 	SEND_WORD: '/app/game/send-word',
+	GUESS_LETTER: '/app/game/guess-letter',
+	RESET_GAME: '/app/game/reset',
 };
 
 export { SUB, SEND };

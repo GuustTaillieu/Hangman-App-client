@@ -1,4 +1,4 @@
-import { game, userData } from '@/hooks/states';
+import { clientSender, game, userData } from '@/hooks/states';
 import { useSignalEffect } from '@preact/signals-react';
 import React from 'react';
 
@@ -6,29 +6,38 @@ type Props = {};
 
 const Letters = (props: Props) => {
 	const [guessedLetters, setGuessedLetters] = React.useState<string[]>([]);
+	const noMoreGuesses = React.useRef(false);
+
+	function checkIfOutOfGuesses(playerId: string) {
+		const mistakes = game.value?.players.find(
+			(player) => player.id === playerId
+		)?.wrongGuesses;
+		if (mistakes === 10) {
+			noMoreGuesses.current = true;
+		}
+	}
 
 	useSignalEffect(() => {
 		const playerId = userData.value?.userId;
-		const currentWordToGuess = game.value?.currentWord;
-		if (!currentWordToGuess || !playerId) return;
-		const guessedLettersState = currentWordToGuess.guesses[playerId];
+		const guessedLettersState = getGuessesForPlayer(playerId);
 		if (!guessedLettersState) return;
 		setGuessedLetters(guessedLettersState);
+		checkIfOutOfGuesses(playerId);
 	});
 
 	function handleLetterClick(
 		e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
 		letter: string
 	): void {
-		console.log(letter);
+		clientSender.value?.guessLetter(letter);
 	}
 
 	return (
 		<div className='flex flex-row flex-wrap justify-center gap-4 max-w-[30rem]'>
-			{/* GET THE ALFABETH AS ARRAY */}
 			{Array.from(Array(26).keys()).map((key) => {
 				const letter = String.fromCharCode(key + 97);
-				const guessed = guessedLetters.includes(letter);
+				const guessed =
+					guessedLetters.includes(letter) || noMoreGuesses.current;
 				return (
 					<button
 						disabled={guessed}
@@ -46,3 +55,10 @@ const Letters = (props: Props) => {
 };
 
 export default Letters;
+
+function getGuessesForPlayer(playerId: string): string[] | undefined {
+	const currentWordToGuess = game.value?.currentWord;
+	if (!currentWordToGuess) return;
+	const guessedLettersState = currentWordToGuess.guesses[playerId];
+	return guessedLettersState;
+}
