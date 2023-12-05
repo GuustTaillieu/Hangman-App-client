@@ -10,11 +10,13 @@ import stage7 from '@public/images/stages/7.jpg';
 import stage8 from '@public/images/stages/8.jpg';
 import stage9 from '@public/images/stages/9.jpg';
 import stage10 from '@public/images/stages/10.jpg';
+import { useSignalEffect } from '@preact/signals-react';
+import { game, userData } from '@/hooks/states';
 
 type Props = {};
 
 function StageImage({}: Props) {
-	const mistakes = 1;
+	const [mistakes, setMistakes] = React.useState<number>(0);
 	const images: StaticImageData[] = useMemo(
 		() => [
 			stage1,
@@ -31,12 +33,21 @@ function StageImage({}: Props) {
 		[]
 	);
 
+	useSignalEffect(() => {
+		if (!game.value) return;
+		const player = game.value.players.find(
+			(player) => player.id === userData.value?.userId
+		);
+		if (!player) return;
+		setMistakes(player.wrongGuesses);
+	});
+
 	return (
-		<div className='mt-6 h-96 flex justify-center'>
+		<div className='mt-6 h-[35%] w-auto shrink flex justify-center'>
 			<Image
 				src={images[mistakes]}
 				alt='hangman status'
-				className='drop-shadow-lg h-full object-cover rounded-xl'
+				className='drop-shadow-lg h-full object-contain w-auto rounded-md'
 			/>
 		</div>
 	);
