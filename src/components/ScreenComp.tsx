@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ['latin'] });
 const ScreenComp = ({ children }: Props) => {
 	return (
 		<main
-			className={`flex min-h-screen flex-col items-center justify-center p-24 ${inter.className}`}>
+			className={`flex h-screen flex-col items-center justify-center p-24 ${inter.className}`}>
 			{children}
 		</main>
 	);

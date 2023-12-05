@@ -1,8 +1,21 @@
+import { game, userData } from '@/hooks/states';
+import { useSignalEffect } from '@preact/signals-react';
 import React from 'react';
 
 type Props = {};
 
 const Letters = (props: Props) => {
+	const [guessedLetters, setGuessedLetters] = React.useState<string[]>([]);
+
+	useSignalEffect(() => {
+		const playerId = userData.value?.userId;
+		const currentWordToGuess = game.value?.currentWord;
+		if (!currentWordToGuess || !playerId) return;
+		const guessedLettersState = currentWordToGuess.guesses[playerId];
+		if (!guessedLettersState) return;
+		setGuessedLetters(guessedLettersState);
+	});
+
 	function handleLetterClick(
 		e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
 		letter: string
@@ -10,48 +23,24 @@ const Letters = (props: Props) => {
 		console.log(letter);
 	}
 
-	const letters: { [key: string]: boolean } = {
-		a: true,
-		b: false,
-		c: true,
-		d: false,
-		e: true,
-		f: true,
-		g: false,
-		h: true,
-		i: false,
-		j: true,
-		k: true,
-		l: false,
-		m: true,
-		n: false,
-		o: true,
-		p: false,
-		q: true,
-		r: true,
-		s: false,
-		t: true,
-		u: false,
-		v: true,
-		w: false,
-		x: true,
-		y: true,
-		z: false,
-	};
-
 	return (
-		<div className='flex flex-row flex-wrap justify-center gap-4'>
-			{Object.keys(letters).map((letter) => (
-				<button
-					disabled={!letters[letter]}
-					onClick={(e) => handleLetterClick(e, letter)}
-					className={`w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-400 rounded-xl flex items-center justify-center text-2xl ${
-						letters[letter] ? '' : 'opacity-30'
-					}`}
-					key={letter}>
-					{letter.toUpperCase()}
-				</button>
-			))}
+		<div className='flex flex-row flex-wrap justify-center gap-4 max-w-[30rem]'>
+			{/* GET THE ALFABETH AS ARRAY */}
+			{Array.from(Array(26).keys()).map((key) => {
+				const letter = String.fromCharCode(key + 97);
+				const guessed = guessedLetters.includes(letter);
+				return (
+					<button
+						disabled={guessed}
+						onClick={(e) => handleLetterClick(e, letter)}
+						className={`w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-400 rounded-xl flex items-center justify-center text-2xl ${
+							!guessed ? '' : 'opacity-30'
+						}`}
+						key={letter}>
+						{letter.toUpperCase()}
+					</button>
+				);
+			})}
 		</div>
 	);
 };

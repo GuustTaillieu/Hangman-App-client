@@ -1,11 +1,34 @@
 import ScreenComp from '@/components/ScreenComp';
-import React from 'react';
+import { clientSender, game, stompClient } from '@/hooks/states';
+import { useSignalEffect } from '@preact/signals-react';
+import { useRouter } from 'next/router';
+import React, { MouseEvent } from 'react';
 
 type Props = {};
 
 const Chooseword = (props: Props) => {
+	const router = useRouter();
 	const [word, setWord] = React.useState<string>('');
 	const choseWord = React.useRef(false);
+
+	React.useEffect(() => {
+		if (!stompClient.value?.connected) {
+			router.push('/');
+		}
+	}, []);
+
+	useSignalEffect(() => {
+		if (!game.value) return;
+		if (game.value.status === 'STARTED') {
+			router.push('/Gamepage');
+		}
+	});
+
+	function handleChooseWord(event: MouseEvent): void {
+		event.preventDefault();
+		choseWord.current = true;
+		clientSender.value?.sendWord(word);
+	}
 
 	return (
 		<ScreenComp>
@@ -18,13 +41,14 @@ const Chooseword = (props: Props) => {
 						value={word}
 						onChange={(e) => setWord(e.target.value)}
 						type='text'
-						className='w-full max-w-[30rem] bg-slate-900 rounded-md px-4 py-3'
+						maxLength={16}
+						className='w-full border-2 rounded-md px-4 py-2 text-2xl font-medium drop-shadow-lg outline-none transition-all text-slate-900'
 					/>
 					<button
 						disabled={word.length < 3}
-						onClick={() => (choseWord.current = true)}
+						onClick={handleChooseWord}
 						type='submit'
-						className='bg-slate-900 rounded-md px-4 py-3'>
+						className='bg-gradient-to-br from-blue-400 to-blue-600 px-4 py-3 text-white font-medium rounded-md text-2xl w-full drop-shadow-lg hover:drop-shadow-xl transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed'>
 						Submit
 					</button>
 				</form>

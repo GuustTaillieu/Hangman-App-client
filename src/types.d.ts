@@ -8,6 +8,7 @@ type Game = {
 	status: GameStatus;
 	players: Player[];
 	words: WordToGuess[];
+	currentWord: WordToGuess | null;
 };
 
 type Player = {
@@ -18,11 +19,9 @@ type Player = {
 
 type WordToGuess = {
 	word: string;
-	state: string;
 	owner: Player;
-	belongingGame: Game;
-	guessed: boolean;
-	guessedLetters: string[];
+	guesses: { [playerId: string]: string[] };
+	wrongGuesses: number;
 };
 
 type GameStatus =
@@ -49,10 +48,19 @@ type TGameActivity = {
 	data: any;
 };
 
-type TClientActions = {
+type TClientSubscriptions = {
 	subToLobbyActivities: (callback: (frame: Frame) => void) => void;
 	subToGameActivities: (
 		gameId: string,
 		callback: (frame: Frame) => void
 	) => void;
+};
+
+type TClientSender = {
+	joinLobby: () => void;
+	createGame: (gameName: string) => void;
+	joinGame: (gameId: string) => void;
+	startGame: () => void;
+	sendWord: (word: string) => void;
+	guessLetter: (letter: string) => void;
 };

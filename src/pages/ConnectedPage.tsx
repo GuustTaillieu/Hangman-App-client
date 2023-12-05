@@ -1,6 +1,10 @@
 import ScreenComp from '@/components/ScreenComp';
-import { SEND } from '@/enums/mailboxes';
-import { lobbyActivity, stompClient, userData } from '@/hooks/states';
+import {
+	clientSender,
+	lobbyActivity,
+	stompClient,
+	userData,
+} from '@/hooks/states';
 import { Game } from '@/types';
 import { useSignalEffect } from '@preact/signals-react';
 import { useRouter } from 'next/router';
@@ -17,7 +21,7 @@ const Connectedpage = ({}: Props) => {
 		if (!stompClient.value?.connected) {
 			router.push('/');
 		}
-		stompClient.value?.send(SEND.JOIN_LOBBY, {}, userData.value.userId);
+		clientSender.value?.joinLobby();
 	}, []);
 
 	const onGameCreated = () => {
@@ -59,17 +63,13 @@ const Connectedpage = ({}: Props) => {
 
 	function handleCreateGame(event: MouseEvent): void {
 		event.preventDefault();
-		stompClient.value?.send(SEND.CREATE_GAME, {
-			playerId: userData.value.userId,
-			gameName: gameName.current?.value,
-		});
+		if (!gameName.current) return;
+		if (gameName.current.value.length < 3) return;
+		clientSender.value?.createGame(gameName.current.value);
 	}
 
 	function handleJoinGame(gameId: string): void {
-		stompClient.value?.send(SEND.JOIN_GAME, {
-			gameId: gameId,
-			playerId: userData.value.userId,
-		});
+		clientSender.value?.joinGame(gameId);
 		router.push('/Gamelobby');
 	}
 
@@ -100,6 +100,7 @@ const Connectedpage = ({}: Props) => {
 						type='text'
 						name='gameName'
 						id='gameName'
+						title='Game name should be at least 3 characters long'
 						className='w-full border-2 rounded-md px-4 py-2 text-2xl font-medium drop-shadow-lg outline-none transition-all text-slate-900'
 					/>
 					<button

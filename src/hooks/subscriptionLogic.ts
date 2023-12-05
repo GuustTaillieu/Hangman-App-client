@@ -1,15 +1,14 @@
-import { Frame } from 'stompjs';
+import Stomp, { Frame } from 'stompjs';
 import {
-	clientActions,
+	clientSender,
+	clientSubscriptions,
 	connected,
 	game,
-	lobbyActivity,
 	stompClient,
+	userData,
 } from './states';
-import { SUB } from '@/enums/mailboxes';
+import { SEND, SUB } from '@/enums/mailboxes';
 import { NextRouter } from 'next/router';
-import Stomp from 'stompjs';
-import { TGameActivity } from '@/types';
 
 export function onConnected(
 	frame?: Frame | undefined,
@@ -18,11 +17,12 @@ export function onConnected(
 ) {
 	connected.value = true;
 	if (!client) return;
-	makeClientActions(client);
+	makeClientSubscriptions(client);
+	makeClientSender(client);
 	router?.push('/Connectedpage');
 }
 
-export const subscribtionAlreadyExists = (callbackName: string) => {
+const subscribtionAlreadyExists = (callbackName: string) => {
 	const subscriptions = stompClient.value?.subscriptions! as {
 		[key: string]: { name: string };
 	};
@@ -31,10 +31,10 @@ export const subscribtionAlreadyExists = (callbackName: string) => {
 	);
 };
 
-function makeClientActions(client: Stomp.Client) {
-	clientActions.value = {
+function makeClientSubscriptions(client: Stomp.Client) {
+	clientSubscriptions.value = {
 		subToLobbyActivities: (callback: (frame: Frame) => void) => {
-			if (!subscribtionAlreadyExists('lobbyActivities')) {
+			if (!subscribtionAlreadyExists(callback.name)) {
 				client.subscribe(SUB.LOBBY_ACTIVITIES, callback);
 			}
 		},
@@ -42,9 +42,56 @@ function makeClientActions(client: Stomp.Client) {
 			gameId: string,
 			callback: (frame: Frame) => void
 		) => {
-			if (!subscribtionAlreadyExists('handleGameActivity')) {
-				client.subscribe(`/topic/game.${gameId}`, callback);
+			if (!subscribtionAlreadyExists(callback.name)) {
+				client.subscribe(SUB.GAME_ACTIVITIES(gameId), callback);
 			}
+		},
+	};
+}
+function makeClientSender(client: Stomp.Client) {
+	clientSender.value = {
+		joinLobby() {
+			client.send(SEND.JOIN_LOBBY, {}, userData.value.userId);
+		},
+		createGame(gameName) {
+			const playerId = userData.value?.userId;
+			client.send(SEND.CREATE_GAME, {
+				playerId,
+				gameName,
+			});
+		},
+		joinGame(gameId) {
+			const playerId = userData.value?.userId;
+			client.send(SEND.JOIN_GAME, {
+				gameId,
+				playerId,
+			});
+		},
+		startGame() {
+			const gameId = game.value?.id;
+			const playerId = userData.value?.userId;
+			client.send(SEND.START_GAME, {
+				gameId,
+				playerId,
+			});
+		},
+		sendWord(word) {
+			const gameId = game.value?.id;
+			const playerId = userData.value?.userId;
+			client.send(SEND.SEND_WORD, {
+				gameId,
+				playerId,
+				word,
+			});
+		},
+		guessLetter(letter) {
+			const gameId = game.value?.id;
+			const playerId = userData.value?.userId;
+			client.send(SEND.SEND_WORD, {
+				gameId,
+				playerId,
+				letter,
+			});
 		},
 	};
 }

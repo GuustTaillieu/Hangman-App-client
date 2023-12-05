@@ -1,6 +1,6 @@
 import ScreenComp from '@/components/ScreenComp';
 import {
-	clientActions,
+	clientSubscriptions,
 	lobbyActivity,
 	stompClient,
 	userData,
@@ -47,8 +47,8 @@ export default function Home({}: Props) {
 	}
 
 	useSignalEffect(() => {
-		if (!clientActions.value) return;
-		clientActions.value.subToLobbyActivities(onLobbyActivity);
+		if (!clientSubscriptions.value) return;
+		clientSubscriptions.value.subToLobbyActivities(onLobbyActivity);
 	});
 
 	return (

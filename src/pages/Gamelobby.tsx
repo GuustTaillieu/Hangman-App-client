@@ -1,8 +1,8 @@
 'use client';
 import ScreenComp from '@/components/ScreenComp';
-import { SEND } from '@/enums/mailboxes';
 import {
-	clientActions,
+	clientSender,
+	clientSubscriptions,
 	game,
 	lobbyActivity,
 	stompClient,
@@ -10,7 +10,7 @@ import {
 } from '@/hooks/states';
 import { TGameActivity } from '@/types';
 import { useSignalEffect } from '@preact/signals-react';
-import { NextRouter, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import React, { MouseEvent } from 'react';
 import { Frame } from 'stompjs';
 
@@ -21,26 +21,25 @@ const Gamelobby = (props: Props) => {
 
 	const handleGameActivity = (frame: Frame) => {
 		const body: TGameActivity = JSON.parse(frame.body);
-		console.log(body);
 
 		if (body.type === 'GAME_UPDATED') {
 			game.value = body.data;
 			if (game.value?.status === 'WAITING_FOR_WORDS') {
 				router.push('/Chooseword');
+			} else if (game.value?.status === 'STARTED') {
+				router.push('/Gamepage');
 			}
 		}
 	};
 
 	const handleStartGame = (e: MouseEvent) => {
-		stompClient.value?.send(SEND.START_GAME, {
-			gameId: game.value?.id,
-		});
+		clientSender.value?.startGame();
 	};
 
 	React.useEffect(() => {
-		// if (!stompClient.value?.connected) {
-		// 	router.push('/');
-		// }
+		if (!stompClient.value?.connected) {
+			router.push('/');
+		}
 	}, []);
 
 	useSignalEffect(() => {
@@ -60,7 +59,10 @@ const Gamelobby = (props: Props) => {
 		game.value = lobbyActivity.value.data;
 		const gameId = lobbyActivity.value.data.id;
 		if (gameId === null) return;
-		clientActions.value?.subToGameActivities(gameId, handleGameActivity);
+		clientSubscriptions.value?.subToGameActivities(
+			gameId,
+			handleGameActivity
+		);
 	});
 
 	return (

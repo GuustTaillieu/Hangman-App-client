@@ -5,8 +5,9 @@ const SUB = {
 const SEND = {
 	JOIN_LOBBY: '/app/lobby/join',
 	CREATE_GAME: '/app/lobby/create-game',
-	START_GAME: '/app/game/start',
 	JOIN_GAME: '/app/game/join',
+	START_GAME: '/app/game/start',
+	SEND_WORD: '/app/game/send-word',
 };
 
 export { SUB, SEND };
