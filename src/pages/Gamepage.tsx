@@ -3,7 +3,6 @@ import StageImage from '../components/StageImage';
 import Header from '../components/Header';
 import Word from '../components/Word';
 import Letters from '../components/Letters';
-import Chat from '../components/Chat';
 import ScreenComp from '../components/ScreenComp';
 import { useSignalEffect } from '@preact/signals-react';
 import { clientSender, game, stompClient, userData } from '@/hooks/states';
@@ -66,7 +65,6 @@ const Gamepage = ({}: Props) => {
 						<StageImage />
 						<Word />
 						<Letters />
-						{/* <Chat /> */}
 					</>
 				)}
 			</div>
