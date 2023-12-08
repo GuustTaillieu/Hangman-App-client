@@ -8,7 +8,7 @@ import {
 	lobbyActivity,
 	userData,
 } from '@/hooks/states';
-import { TGameActivity } from '@/types';
+import { TGame } from '@/types';
 import { useSignalEffect } from '@preact/signals-react';
 import { useRouter } from 'next/router';
 import React, { MouseEvent } from 'react';
@@ -20,16 +20,13 @@ const Gamelobby = () => {
 	const router = useRouter();
 
 	const handleGameActivity = (frame: Frame) => {
-		const body: TGameActivity = JSON.parse(frame.body);
+		const newGame: TGame = JSON.parse(frame.body);
+		game.value = newGame;
 
-		if (body.type === 'GAME_UPDATED') {
-			game.value = body.data;
-
-			if (game.value?.status === 'WAITING_FOR_WORDS') {
-				router.push(pages.CHOOSE_WORD);
-			} else if (game.value?.status === 'STARTED') {
-				router.push(pages.GAME_PAGE);
-			}
+		if (game.value?.status === 'WAITING_FOR_WORDS') {
+			router.push(pages.CHOOSE_WORD);
+		} else if (game.value?.status === 'STARTED') {
+			router.push(pages.GAME_PAGE);
 		}
 	};
 

@@ -1,6 +1,6 @@
 import MainWrapper from '@/components/MainWrapper';
 import { clientSender, lobbyActivity, userData } from '@/hooks/states';
-import { Game } from '@/types';
+import { TGame } from '@/types';
 import { useSignalEffect } from '@preact/signals-react';
 import { useRouter } from 'next/router';
 import React, { MouseEvent } from 'react';
@@ -10,7 +10,7 @@ import pages from '@/constants/pages';
 
 const Lobby = () => {
 	const router = useRouter();
-	const [games, setGames] = React.useState<Game[]>([]);
+	const [games, setGames] = React.useState<TGame[]>([]);
 	const gameName = React.useRef<HTMLInputElement>(null);
 
 	React.useEffect(() => {
@@ -18,7 +18,7 @@ const Lobby = () => {
 	}, []);
 
 	const onGameCreated = () => {
-		const game: Game = lobbyActivity.value?.data;
+		const game: TGame = lobbyActivity.value?.data;
 		if (games.includes(game)) return;
 		gameName.current!.value = '';
 		const isHost = game.host.id === userData.value.userId;
@@ -29,7 +29,7 @@ const Lobby = () => {
 	};
 
 	const updateGames = () => {
-		const games: Game[] = lobbyActivity.value?.data;
+		const games: TGame[] = lobbyActivity.value?.data;
 		setGames(games);
 	};
 

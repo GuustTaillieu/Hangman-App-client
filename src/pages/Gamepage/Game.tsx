@@ -1,15 +1,16 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import StageImage from './StageImage';
 import Word from './Word';
 import Letters from './Letters';
 import { game, userData } from '@/hooks/states';
-import { useSignalEffect } from '@preact/signals-react';
+import GuessingWordOf from './GuessingWordOf';
 
-const MAX_GUESSES = 9;
+const MAX_GUESSES = 10;
 
 export const Game = () => {
 	return (
 		<>
+			<GuessingWordOf />
 			<StageImage />
 			<Word />
 			<Letters />

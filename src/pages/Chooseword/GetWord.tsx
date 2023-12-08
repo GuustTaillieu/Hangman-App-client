@@ -20,11 +20,14 @@ const GetWord = ({ choseWord }: Props) => {
 			className='flex flex-col items-center justify-center gap-8'>
 			<h2 className='text-4xl font-medium'>Choose a word:</h2>
 			<input
+				autoFocus
 				value={word}
-				onChange={(e) => setWord(e.target.value)}
+				onChange={(e) => setWord(e.target.value.replace(/[^a-z]/g, ''))}
 				type='text'
+				placeholder='Enter a word'
+				pattern='[A-Za-z]+'
 				maxLength={16}
-				className='w-full border-2 rounded-md px-4 py-2 text-2xl font-medium drop-shadow-lg outline-none transition-all text-slate-900'
+				className='w-full border-2 rounded-md px-4 py-2 text-2xl font-medium drop-shadow-lg outline-none transition-all text-slate-900 uppercase'
 			/>
 			<button
 				disabled={word.length < 3}

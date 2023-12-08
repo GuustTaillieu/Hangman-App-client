@@ -1,30 +1,30 @@
 import { type } from 'os';
 import { Frame } from 'stompjs';
 
-type Game = {
+type TGame = {
 	id: string;
 	name: string;
-	host: Player;
-	status: GameStatus;
-	players: Player[];
-	words: WordToGuess[];
-	currentWord: WordToGuess | null;
+	host: TPlayer;
+	status: TGameStatus;
+	players: TPlayer[];
+	words: TWordToGuess[];
+	currentWord: TWordToGuess | null;
 };
 
-type Player = {
+type TPlayer = {
 	id: string;
 	name: string;
 	score: number;
 	wrongGuesses: number;
 };
 
-type WordToGuess = {
+type TWordToGuess = {
 	word: string;
-	owner: Player;
+	owner: TPlayer;
 	guesses: { [playerId: string]: string[] };
 };
 
-type GameStatus =
+type TGameStatus =
 	| 'WAITING_FOR_PLAYERS'
 	| 'WAITING_FOR_WORDS'
 	| 'STARTED'

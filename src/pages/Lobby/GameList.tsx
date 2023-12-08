@@ -1,8 +1,8 @@
-import { Game } from '@/types';
+import { TGame } from '@/types';
 import React from 'react';
 
 type Props = {
-	games: Game[];
+	games: TGame[];
 	handleJoinGame: (gameId: string) => void;
 };
 

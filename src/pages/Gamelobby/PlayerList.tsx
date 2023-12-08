@@ -1,5 +1,5 @@
 import { game, userData } from '@/hooks/states';
-import { Player } from '@/types';
+import { TPlayer } from '@/types';
 import React from 'react';
 
 const PlayerList = () => {
@@ -13,7 +13,7 @@ const PlayerList = () => {
 	);
 };
 
-const PlayerComponent = ({ player }: { player: Player }) => (
+const PlayerComponent = ({ player }: { player: TPlayer }) => (
 	<li
 		key={player.id}
 		className='text-2xl font-medium flex flex-row justify-between px-2 py-4 border-b-2 border-slate-300 last:border-b-0'>

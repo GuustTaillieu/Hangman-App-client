@@ -9,6 +9,7 @@ const CreateGameForm = ({ handleCreateGame, gameName }: Props) => {
 	return (
 		<form className='flex flex-row gap-4'>
 			<input
+				autoFocus
 				ref={gameName}
 				placeholder='Game name'
 				type='text'

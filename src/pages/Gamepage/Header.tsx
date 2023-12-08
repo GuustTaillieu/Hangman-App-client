@@ -1,10 +1,10 @@
 import { game, userData } from '@/hooks/states';
-import { Player } from '@/types';
+import { TPlayer } from '@/types';
 import { useSignalEffect } from '@preact/signals-react';
 import React from 'react';
 
 function Header() {
-	const [players, setPlayers] = React.useState<Player[]>([]);
+	const [players, setPlayers] = React.useState<TPlayer[]>([]);
 
 	useSignalEffect(() => {
 		if (!game.value) return;
@@ -12,7 +12,7 @@ function Header() {
 	});
 
 	return game.value ? (
-		<div className='fixed left-2 top-8 flex flex-col items-start justify-center gap-4'>
+		<div className='fixed left-4 top-8 flex flex-col items-start justify-center gap-4'>
 			{players.map((player) => (
 				<div
 					key={player.id}

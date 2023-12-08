@@ -62,6 +62,7 @@ export default function Home() {
 				</h2>
 				<div className='flex flex-row gap-4'>
 					<input
+						autoFocus
 						onChange={(event) =>
 							(userData.value.username = event.target.value)
 						}
