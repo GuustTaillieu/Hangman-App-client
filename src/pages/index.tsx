@@ -13,6 +13,8 @@ import SockJs from 'sockjs-client';
 import Stomp, { Frame } from 'stompjs';
 import { v4 as uuidv4 } from 'uuid';
 
+const SERVER_ADDRESS = 'http://localhost:8080/ws';
+
 export default function Home() {
 	const router = useRouter();
 	const [error, setError] = React.useState<string>('');
@@ -20,7 +22,7 @@ export default function Home() {
 	function connectUser(event: MouseEvent): void {
 		event.preventDefault();
 
-		const socket: WebSocket = new SockJs('http://localhost:8080/ws');
+		const socket: WebSocket = new SockJs(SERVER_ADDRESS);
 		const client: Stomp.Client = Stomp.over(socket);
 		stompClient.value = client;
 		const userId = uuidv4();
