@@ -8,7 +8,6 @@ const Word = () => {
 	useSignalEffect(() => {
 		const playerId = userData.value?.userId;
 		const currentWord = game.value?.currentWord;
-		console.log(game.value);
 		if (!game.value || !playerId || !currentWord) return;
 		const wordState = currentWord.word.split('').map(() => '_');
 		const guessedLettersState = currentWord.guesses[playerId];

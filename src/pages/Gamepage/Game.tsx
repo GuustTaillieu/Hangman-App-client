@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import StageImage from './StageImage';
 import Word from './Word';
 import Letters from './Letters';
 import { game, userData } from '@/hooks/states';
+import { useSignalEffect } from '@preact/signals-react';
+
+const MAX_GUESSES = 9;
 
 export const Game = () => {
 	return (
@@ -19,11 +22,12 @@ export const GameWaiting = () => {
 		const currentWord = game.value?.currentWord;
 		if (!currentWord) return false;
 		return currentWord.owner.id === userData.value?.userId;
-	}, [game.value]);
+	}, [game.value, userData.value]);
 
-	const finshedRound = React.useMemo(() => {
+	const finishedRound = React.useMemo(() => {
 		const userTest = userData.value;
 		const gameTest = game.value;
+		console.log(userTest, gameTest);
 
 		if (!userTest || !gameTest) return false;
 
@@ -31,28 +35,37 @@ export const GameWaiting = () => {
 			(player) => player.id === userTest.userId
 		);
 		const currentWord = gameTest.currentWord;
-
 		if (!playerStatus || !currentWord) return false;
 
 		const guessedTheWord = currentWord.word.split('').every((letter) => {
 			return currentWord.guesses[playerStatus.id].includes(letter);
 		});
 
-		return playerStatus.wrongGuesses === 10 || guessedTheWord;
-	}, [game.value]);
+		console.log(playerStatus.wrongGuesses);
+		return playerStatus.wrongGuesses === MAX_GUESSES || guessedTheWord;
+	}, [game.value, userData.value]);
 
-	const isFinishedRound = () =>
-		finshedRound ? (
+	const isFinishedRound = React.useMemo(() => {
+		return finishedRound ? (
 			<h2 className='text-4xl font-medium text-center'>
-				Waiting for the other players to finish the round...
+				You are out of guesses
+				<br />
+				<span className='text-2xl'>
+					Waiting for the other players to finish the round...
+				</span>
 			</h2>
 		) : null;
+	}, [finishedRound]);
 
 	return isOwnWord ? (
 		<h2 className='text-4xl font-medium text-center'>
-			Waiting for the other players to guess your word...
+			It's your word.
+			<br />
+			<span className='text-2xl'>
+				Waiting for the other players to guess your word...
+			</span>
 		</h2>
 	) : (
-		isFinishedRound()
+		isFinishedRound
 	);
 };

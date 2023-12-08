@@ -24,6 +24,7 @@ const Gamelobby = () => {
 
 		if (body.type === 'GAME_UPDATED') {
 			game.value = body.data;
+
 			if (game.value?.status === 'WAITING_FOR_WORDS') {
 				router.push(pages.CHOOSE_WORD);
 			} else if (game.value?.status === 'STARTED') {

@@ -20,19 +20,15 @@ const Lobby = () => {
 	const onGameCreated = () => {
 		const game: Game = lobbyActivity.value?.data;
 		if (games.includes(game)) return;
-		setGames((prev) => [...prev, lobbyActivity.value?.data]);
 		gameName.current!.value = '';
 		const isHost = game.host.id === userData.value.userId;
 		if (isHost) {
 			router.push(pages.GAME_LOBBY);
 		}
-	};
-	const onLobbyJoined = () => {
-		const game = lobbyActivity.value?.data;
-		setGames(game);
+		setGames((prev) => [...prev, lobbyActivity.value?.data]);
 	};
 
-	const onGameRemoved = () => {
+	const updateGames = () => {
 		const games: Game[] = lobbyActivity.value?.data;
 		setGames(games);
 	};
@@ -44,10 +40,10 @@ const Lobby = () => {
 				onGameCreated();
 				break;
 			case 'LOBBY_JOINED':
-				onLobbyJoined();
+				updateGames();
 				break;
 			case 'GAME_REMOVED':
-				onGameRemoved();
+				updateGames();
 				break;
 			default:
 				break;
