@@ -1,4 +1,4 @@
-import ScreenComp from '@/components/ScreenComp';
+import MainWrapper from '@/components/MainWrapper';
 import {
 	clientSender,
 	lobbyActivity,
@@ -18,9 +18,6 @@ const Connectedpage = ({}: Props) => {
 	const gameName = React.useRef<HTMLInputElement>(null);
 
 	React.useEffect(() => {
-		if (!stompClient.value?.connected) {
-			router.push('/');
-		}
 		clientSender.value?.joinLobby();
 	}, []);
 
@@ -74,7 +71,7 @@ const Connectedpage = ({}: Props) => {
 	}
 
 	return (
-		<ScreenComp>
+		<MainWrapper>
 			<div className='h-[50rem] flex flex-col items-center justify-center gap-8'>
 				<h2 className='text-4xl font-medium'>Games:</h2>
 				<ul className='flex flex-col gap-4 w-full overflow-y-auto max-h-[20rem] bg-slate-900 rounded-md px-4 py-3'>
@@ -111,7 +108,7 @@ const Connectedpage = ({}: Props) => {
 					</button>
 				</form>
 			</div>
-		</ScreenComp>
+		</MainWrapper>
 	);
 };
 

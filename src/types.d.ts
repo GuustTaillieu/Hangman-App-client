@@ -54,6 +54,7 @@ type TClientSubscriptions = {
 		gameId: string,
 		callback: (frame: Frame) => void
 	) => void;
+	unsubFromGameActivities: () => void;
 };
 
 type TClientSender = {

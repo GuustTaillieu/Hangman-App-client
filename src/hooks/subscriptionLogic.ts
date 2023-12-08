@@ -32,6 +32,7 @@ const subscribtionAlreadyExists = (callbackName: string) => {
 };
 
 function makeClientSubscriptions(client: Stomp.Client) {
+	let gameSub: null | Stomp.Subscription = null;
 	clientSubscriptions.value = {
 		subToLobbyActivities: (callback: (frame: Frame) => void) => {
 			if (!subscribtionAlreadyExists(callback.name)) {
@@ -43,8 +44,15 @@ function makeClientSubscriptions(client: Stomp.Client) {
 			callback: (frame: Frame) => void
 		) => {
 			if (!subscribtionAlreadyExists(callback.name)) {
-				client.subscribe(SUB.GAME_ACTIVITIES(gameId), callback);
+				gameSub = client.subscribe(
+					SUB.GAME_ACTIVITIES(gameId),
+					callback
+				);
 			}
+		},
+		unsubFromGameActivities: () => {
+			gameSub?.unsubscribe();
+			gameSub = null;
 		},
 	};
 }

@@ -1,4 +1,4 @@
-import ScreenComp from '@/components/ScreenComp';
+import MainWrapper from '@/components/MainWrapper';
 import {
 	clientSubscriptions,
 	lobbyActivity,
@@ -52,7 +52,7 @@ export default function Home({}: Props) {
 	});
 
 	return (
-		<ScreenComp>
+		<MainWrapper>
 			<form
 				action='#'
 				className='flex flex-col items-center justify-center gap-8'>
@@ -81,6 +81,6 @@ export default function Home({}: Props) {
 					{error}
 				</p>
 			</form>
-		</ScreenComp>
+		</MainWrapper>
 	);
 }
