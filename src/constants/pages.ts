@@ -3,4 +3,5 @@ export default {
 	LOBBY: '/Lobby',
 	GAME_LOBBY: '/Gamelobby',
 	CHOOSE_WORD: '/Chooseword',
+	GAME_PAGE: '/Gamepage',
 };

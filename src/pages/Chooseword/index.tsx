@@ -15,7 +15,7 @@ const Chooseword = () => {
 	useSignalEffect(() => {
 		if (!game.value) return;
 		if (game.value.status === 'STARTED') {
-			router.push(pages.GAME_LOBBY);
+			router.push(pages.GAME_PAGE);
 		}
 	});
 

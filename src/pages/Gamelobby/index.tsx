@@ -27,7 +27,7 @@ const Gamelobby = () => {
 			if (game.value?.status === 'WAITING_FOR_WORDS') {
 				router.push(pages.CHOOSE_WORD);
 			} else if (game.value?.status === 'STARTED') {
-				router.push(pages.GAME_LOBBY);
+				router.push(pages.GAME_PAGE);
 			}
 		}
 	};
