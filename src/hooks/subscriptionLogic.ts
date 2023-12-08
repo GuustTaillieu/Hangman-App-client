@@ -7,8 +7,9 @@ import {
 	stompClient,
 	userData,
 } from './states';
-import { SEND, SUB } from '@/enums/mailboxes';
+import { SEND, SUB } from '@/constants/mailboxes';
 import { NextRouter } from 'next/router';
+import pages from '@/constants/pages';
 
 export function onConnected(
 	frame?: Frame | undefined,
@@ -19,7 +20,7 @@ export function onConnected(
 	if (!client) return;
 	makeClientSubscriptions(client);
 	makeClientSender(client);
-	router?.push('/Connectedpage');
+	router?.push(pages.LOBBY);
 }
 
 const subscribtionAlreadyExists = (callbackName: string) => {
@@ -32,6 +33,7 @@ const subscribtionAlreadyExists = (callbackName: string) => {
 };
 
 function makeClientSubscriptions(client: Stomp.Client) {
+	let gameSub: null | Stomp.Subscription = null;
 	clientSubscriptions.value = {
 		subToLobbyActivities: (callback: (frame: Frame) => void) => {
 			if (!subscribtionAlreadyExists(callback.name)) {
@@ -43,8 +45,15 @@ function makeClientSubscriptions(client: Stomp.Client) {
 			callback: (frame: Frame) => void
 		) => {
 			if (!subscribtionAlreadyExists(callback.name)) {
-				client.subscribe(SUB.GAME_ACTIVITIES(gameId), callback);
+				gameSub = client.subscribe(
+					SUB.GAME_ACTIVITIES(gameId),
+					callback
+				);
 			}
+		},
+		unsubFromGameActivities: () => {
+			gameSub?.unsubscribe();
+			gameSub = null;
 		},
 	};
 }

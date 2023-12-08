@@ -1,4 +1,4 @@
-import ScreenComp from '@/components/ScreenComp';
+import MainWrapper from '@/components/MainWrapper';
 import {
 	clientSubscriptions,
 	lobbyActivity,
@@ -13,16 +13,16 @@ import SockJs from 'sockjs-client';
 import Stomp, { Frame } from 'stompjs';
 import { v4 as uuidv4 } from 'uuid';
 
-type Props = {};
+const SERVER_ADDRESS = 'http://localhost:8080/ws';
 
-export default function Home({}: Props) {
+export default function Home() {
 	const router = useRouter();
 	const [error, setError] = React.useState<string>('');
 
 	function connectUser(event: MouseEvent): void {
 		event.preventDefault();
 
-		const socket: WebSocket = new SockJs('http://localhost:8080/ws');
+		const socket: WebSocket = new SockJs(SERVER_ADDRESS);
 		const client: Stomp.Client = Stomp.over(socket);
 		stompClient.value = client;
 		const userId = uuidv4();
@@ -52,7 +52,7 @@ export default function Home({}: Props) {
 	});
 
 	return (
-		<ScreenComp>
+		<MainWrapper>
 			<form
 				action='#'
 				className='flex flex-col items-center justify-center gap-8'>
@@ -64,6 +64,7 @@ export default function Home({}: Props) {
 				</h2>
 				<div className='flex flex-row gap-4'>
 					<input
+						autoFocus
 						onChange={(event) =>
 							(userData.value.username = event.target.value)
 						}
@@ -81,6 +82,6 @@ export default function Home({}: Props) {
 					{error}
 				</p>
 			</form>
-		</ScreenComp>
+		</MainWrapper>
 	);
 }
