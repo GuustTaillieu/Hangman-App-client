@@ -4,9 +4,7 @@ import Word from './Word';
 import Letters from './Letters';
 import { game, userData } from '@/hooks/states';
 
-type Props = {};
-
-export const Game = (props: Props) => {
+export const Game = () => {
 	return (
 		<>
 			<StageImage />
@@ -17,6 +15,12 @@ export const Game = (props: Props) => {
 };
 
 export const GameWaiting = () => {
+	const isOwnWord = React.useMemo(() => {
+		const currentWord = game.value?.currentWord;
+		if (!currentWord) return false;
+		return currentWord.owner.id === userData.value?.userId;
+	}, [game.value]);
+
 	const finshedRound = React.useMemo(() => {
 		const userTest = userData.value;
 		const gameTest = game.value;
@@ -37,13 +41,18 @@ export const GameWaiting = () => {
 		return playerStatus.wrongGuesses === 10 || guessedTheWord;
 	}, [game.value]);
 
-	return finshedRound ? (
-		<h2 className='text-4xl font-medium text-center'>
-			Waiting for the other players to finish the round...
-		</h2>
-	) : (
+	const isFinishedRound = () =>
+		finshedRound ? (
+			<h2 className='text-4xl font-medium text-center'>
+				Waiting for the other players to finish the round...
+			</h2>
+		) : null;
+
+	return isOwnWord ? (
 		<h2 className='text-4xl font-medium text-center'>
 			Waiting for the other players to guess your word...
 		</h2>
+	) : (
+		isFinishedRound()
 	);
 };

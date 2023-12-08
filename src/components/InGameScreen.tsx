@@ -1,3 +1,4 @@
+import pages from '@/constants/pages';
 import {
 	clientSender,
 	clientSubscriptions,
@@ -18,7 +19,7 @@ const InGameScreen = ({ children }: Props) => {
 	useSignalEffect(() => {
 		if (!game.value) return;
 		if (game.value.status === 'FINISHED') {
-			router.push('/Gamelobby');
+			router.push(pages.GAME_LOBBY);
 			clientSender.value?.resetGame();
 		}
 	});
@@ -28,7 +29,7 @@ const InGameScreen = ({ children }: Props) => {
 		if (lobbyActivity.value.type === 'GAME_REMOVED') {
 			game.value = null;
 			clientSubscriptions.value?.unsubFromGameActivities();
-			router.push('/Connectedpage');
+			router.push(pages.LOBBY);
 		}
 	});
 

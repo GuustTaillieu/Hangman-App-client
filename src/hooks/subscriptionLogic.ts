@@ -7,8 +7,9 @@ import {
 	stompClient,
 	userData,
 } from './states';
-import { SEND, SUB } from '@/enums/mailboxes';
+import { SEND, SUB } from '@/constants/mailboxes';
 import { NextRouter } from 'next/router';
+import pages from '@/constants/pages';
 
 export function onConnected(
 	frame?: Frame | undefined,
@@ -19,7 +20,7 @@ export function onConnected(
 	if (!client) return;
 	makeClientSubscriptions(client);
 	makeClientSender(client);
-	router?.push('/Connectedpage');
+	router?.push(pages.LOBBY);
 }
 
 const subscribtionAlreadyExists = (callbackName: string) => {

@@ -1,3 +1,4 @@
+import pages from '@/constants/pages';
 import { stompClient } from '@/hooks/states';
 import { Inter } from 'next/font/google';
 import { useRouter } from 'next/router';
@@ -14,7 +15,7 @@ const MainWrapper = ({ children }: Props) => {
 
 	React.useEffect(() => {
 		if (!stompClient.value?.connected) {
-			router.push('/');
+			router.push(pages.HOME);
 		}
 	}, []);
 

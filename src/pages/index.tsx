@@ -13,9 +13,7 @@ import SockJs from 'sockjs-client';
 import Stomp, { Frame } from 'stompjs';
 import { v4 as uuidv4 } from 'uuid';
 
-type Props = {};
-
-export default function Home({}: Props) {
+export default function Home() {
 	const router = useRouter();
 	const [error, setError] = React.useState<string>('');
 
