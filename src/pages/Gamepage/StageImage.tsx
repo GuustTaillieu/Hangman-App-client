@@ -42,6 +42,13 @@ function StageImage() {
 
 	return (
 		<div className='mt-6 h-[35%] w-auto shrink flex justify-center'>
+			{mistakes === 9 && (
+				<div className='text-center absolute z-20 top-[42%]'>
+					<h1 className='text-4xl text-white font-bold'>
+						Last chance!
+					</h1>
+				</div>
+			)}
 			<Image
 				src={images[mistakes]}
 				alt='hangman status'

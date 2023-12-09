@@ -55,11 +55,11 @@
     },
     "windows": [
       {
-        "fullscreen": true,
-        "height": 600,
+        "fullscreen": false,
+        "height": 920,
         "resizable": true,
         "title": "Hangman",
-        "width": 800
+        "width": 1200
       }
     ]
   }
