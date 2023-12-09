@@ -7,7 +7,7 @@
     "distDir": "../out"
   },
   "package": {
-    "productName": "client",
+    "productName": "Hangman",
     "version": "0.1.0"
   },
   "tauri": {
@@ -29,7 +29,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
+      "identifier": "net.taillieusauw.hangman",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
@@ -55,7 +55,7 @@
     },
     "windows": [
       {
-        "fullscreen": false,
+        "fullscreen": true,
         "height": 600,
         "resizable": true,
         "title": "Hangman",

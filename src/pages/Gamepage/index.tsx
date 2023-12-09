@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from './Header';
 import MainWrapper from '../../components/MainWrapper';
-import { Game, GameWaiting } from '@/pages/Gamepage/Game';
+import Game, { GameWaiting } from '@/pages/Gamepage/Game';
 import InGameScreen from '@/components/InGameScreen';
 
 const Gamepage = () => {

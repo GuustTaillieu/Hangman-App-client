@@ -17,7 +17,7 @@ const MainWrapper = ({ children }: Props) => {
 		if (!stompClient.value?.connected) {
 			router.push(pages.HOME);
 		}
-	}, []);
+	}, [stompClient.value?.connected, router]);
 
 	return (
 		<main

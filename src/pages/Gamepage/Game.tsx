@@ -7,7 +7,7 @@ import GuessingWordOf from './GuessingWordOf';
 
 const MAX_GUESSES = 10;
 
-export const Game = () => {
+export default function Game() {
 	return (
 		<>
 			<GuessingWordOf />
@@ -16,7 +16,7 @@ export const Game = () => {
 			<Letters />
 		</>
 	);
-};
+}
 
 export const GameWaiting = () => {
 	const isOwnWord = React.useMemo(() => {
@@ -60,7 +60,7 @@ export const GameWaiting = () => {
 
 	return isOwnWord ? (
 		<h2 className='text-4xl font-medium text-center'>
-			It's your word.
+			It&apos;s your word!
 			<br />
 			<span className='text-2xl'>
 				Waiting for the other players to guess your word...

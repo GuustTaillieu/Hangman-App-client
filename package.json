@@ -26,6 +26,7 @@
     "@types/react-dom": "^18",
     "@types/sockjs-client": "^1.5.4",
     "@types/stompjs": "^2.3.9",
+    "@types/use-sync-external-store": "^0.0.6",
     "@types/uuid": "^9.0.7",
     "autoprefixer": "^10.0.1",
     "eslint": "^8",

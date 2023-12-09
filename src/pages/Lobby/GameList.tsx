@@ -6,7 +6,7 @@ type Props = {
 	handleJoinGame: (gameId: string) => void;
 };
 
-const GameList = ({ games, handleJoinGame }: Props) => {
+const GameList = ({ games = [], handleJoinGame }: Props) => {
 	return (
 		<ul className='flex flex-col gap-4 w-full overflow-y-auto max-h-[20rem] bg-slate-900 rounded-md px-4 py-3'>
 			{games.length > 0 ? (
