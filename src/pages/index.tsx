@@ -13,7 +13,7 @@ import SockJs from 'sockjs-client';
 import Stomp, { Frame } from 'stompjs';
 import { v4 as uuidv4 } from 'uuid';
 
-const SERVER_ADDRESS = 'https://hangman-server-kxwj.onrender.com/ws';
+const SERVER_ADDRESS = 'http://localhost:8080/ws';
 
 export default function Home() {
 	const router = useRouter();
