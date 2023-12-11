@@ -4,11 +4,6 @@
 
 @layer base {
 	body {
-		@apply bg-gradient-to-b from-slate-300 to-slate-400 text-slate-900;
-	}
-	@media (prefers-color-scheme: dark) {
-		body {
-			@apply bg-gradient-to-b from-slate-800 to-slate-900 text-white;
-		}
+		@apply bg-gradient-to-b from-slate-800 to-slate-900 text-white;
 	}
 }
